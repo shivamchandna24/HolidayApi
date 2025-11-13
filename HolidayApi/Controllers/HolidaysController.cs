@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-using Microsoft.AspNetCore.Mvc;
 using HolidayApi.Application;
 using HolidayApi.Domain;
 

@@ -3,7 +3,6 @@ using HolidayApi.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Json;
 
-
 namespace HolidayApi.Infrastructure
 {
     public class HolidayService : IHolidayService
@@ -14,6 +13,8 @@ namespace HolidayApi.Infrastructure
         {
             this.db = db;
         }
+
+        #region Methods
 
         public async Task<List<UpsertHolidayDto>> InsertOrUpdateHolidaysFromApiAsync(int year, string countryCode)
         {
@@ -127,5 +128,7 @@ namespace HolidayApi.Infrastructure
                          }).ToListAsync();
 
         }
+
+        #endregion
     }
 }
