@@ -1,3 +1,4 @@
+using HolidayApi.Application;
 using HolidayApi.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,10 +19,26 @@ builder.Services.AddDbContext<HolidayContext>(options =>
       ));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Add IHttpClientFactory
+builder.Services.AddHttpClient();
+// Add HolidayService
+builder.Services.AddScoped<IHolidayService, HolidayService>();
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionMiddleware>(); // Configure Middleware
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<HolidayContext>();
+    db.Database.EnsureCreated(); // Automatically creates HolidaysDb if it doesn't exist
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
