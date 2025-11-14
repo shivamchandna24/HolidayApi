@@ -16,6 +16,14 @@ namespace HolidayApi.Infrastructure
 
         #region Methods
 
+        /// <summary>
+        /// Service mehtod to create records in DB. This insert or updates the records..
+        /// Extensive exception handling done in line and using middleware to handle all possible exceptions at one place.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
+        /// <exception cref="ExternalServiceException"></exception>
         public async Task<List<UpsertHolidayDto>> InsertOrUpdateHolidaysFromApiAsync(int year, string countryCode)
         {
             using var client = new HttpClient();
@@ -69,6 +77,12 @@ namespace HolidayApi.Infrastructure
 
         }
 
+        /// <summary>
+        /// Service method to fetch last three holidays for a given country. 
+        /// It could be many years back, and it would depend on the most recent in chornological order.
+        /// </summary>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
         public async Task<List<PreviousHolidayDto>> GetPreviousThreeHolidaysAsync(string countryCode)
         {
             var today = DateTime.UtcNow.Date;
@@ -84,6 +98,12 @@ namespace HolidayApi.Infrastructure
                            .ToListAsync();
         }
 
+        /// <summary>
+        /// Service method to find holidays for a country/countries for given year falling on weekdays.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="countryCodes"></param>
+        /// <returns></returns>
         public async Task<List<NonWeekendHolidayDto>> GetNonWeekendHolidayCountAsync(int year, IEnumerable<string> countryCodes)
         {
             var startDateOfYear = new DateTime(year, 1, 1);
@@ -113,6 +133,14 @@ namespace HolidayApi.Infrastructure
             return nonWeekendHoldiayPerCountry;
         }
 
+        /// <summary>
+        /// Service method to see if there are any common holidays between two contries in a given year
+        /// and display it with their local names.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="firstCountry"></param>
+        /// <param name="secondCountry"></param>
+        /// <returns></returns>
         public async Task<List<SharedHolidayDto>> GetSharedCelebrationDatesAsync(int year, string firstCountry, string secondCountry)
         {
             return await (

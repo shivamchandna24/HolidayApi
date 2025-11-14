@@ -26,6 +26,13 @@ namespace HolidayApi.Controllers
 
         #region Controller Methods
 
+        /// <summary>
+        /// Controller method to insert or update holidays in your Db for given country code and year.
+        /// For better and short naming  used rounting with Refresh
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
         [HttpPost("Refresh/{year}/{countryCode}")]
         public async Task<ActionResult<UpsertHolidayResponseDto>> InsertOrUpdateHolidays(int year, string countryCode)
         {
@@ -41,6 +48,11 @@ namespace HolidayApi.Controllers
         }
 
 
+        /// <summary>
+        /// Controller method to invoke service to fetch last three holidays for a country in DB
+        /// </summary>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
         [HttpGet("PreviousThree/{countryCode}")]
         public async Task<ActionResult<PreviousHolidayResponseDto>> GetPreviousThreeHolidays(string countryCode)
         {
@@ -54,7 +66,12 @@ namespace HolidayApi.Controllers
             return Ok(response);
         }
 
-
+        /// <summary>
+        /// Controller method to get holidays on weekdays for given country(ies) in a year.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="countryCodes"></param>
+        /// <returns></returns>
         [HttpGet("NonWeekendCount/{year}")]
         public async Task<ActionResult<NonWeekendHolidayResponseDto>> GetNonWeekendHolidayCount(int year, [FromQuery][Required] string[] countryCodes)
         {
@@ -86,8 +103,13 @@ namespace HolidayApi.Controllers
             return Ok(response);
         }
 
-
-        //[HttpGet("Shared/{year}/{countryA}/{countryB}")]
+        /// <summary>
+        /// Controller method to get shared holidays in a year between two countires.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="firstCountry"></param>
+        /// <param name="secondCountry"></param>
+        /// <returns></returns>
         [HttpGet("Shared/{year}/{firstCountry}/{secondCountry}")]
         public async Task<ActionResult<SharedHolidayResponseDto>> GetSharedHolidays(int year, string firstCountry, string secondCountry)
         {
