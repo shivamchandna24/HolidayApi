@@ -8,10 +8,11 @@ namespace HolidayApi.Infrastructure
     public class HolidayService : IHolidayService
     {
         private readonly HolidayContext db;
-
-        public HolidayService(HolidayContext db)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public HolidayService(HolidayContext db, IHttpClientFactory httpClientFactory)
         {
             this.db = db;
+            _httpClientFactory = httpClientFactory;
         }
 
         #region Methods
@@ -26,7 +27,7 @@ namespace HolidayApi.Infrastructure
         /// <exception cref="ExternalServiceException"></exception>
         public async Task<List<UpsertHolidayDto>> InsertOrUpdateHolidaysFromApiAsync(int year, string countryCode)
         {
-            using var client = new HttpClient();
+            var client = _httpClientFactory.CreateClient();
             var nagerHolidayUrl = $"{ApiEndpoints.NagerHolidayURL}/{year}/{countryCode}";
 
             HttpResponseMessage response = await client.GetAsync(nagerHolidayUrl);

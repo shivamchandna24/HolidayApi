@@ -11,6 +11,8 @@
 		<ProjectReference Include="..\HolidayApi.Domain\HolidayApi.Domain.csproj" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+
 	</ItemGroup>
 
 	<ItemGroup>

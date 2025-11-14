@@ -1,6 +1,8 @@
 ﻿using HolidayApi.Domain;
 using HolidayApi.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+
 
 namespace HolidayApi.Tests
 {
@@ -20,10 +22,11 @@ namespace HolidayApi.Tests
                 .Options;
 
             dbContext = new HolidayContext(options);
+            var mockFactory = new Mock<IHttpClientFactory>();
             // _cache = new Mock<IMemoryCache>();
             // MockS
 
-            service = new HolidayService(dbContext);
+            service = new HolidayService(dbContext, mockFactory.Object);
 
         }
 
