@@ -68,6 +68,7 @@ namespace HolidayApi.Controllers
 
         /// <summary>
         /// Controller method to get holidays on weekdays for given country(ies) in a year.
+        /// This is the controller method which uses client side validation.
         /// </summary>
         /// <param name="year"></param>
         /// <param name="countryCodes"></param>

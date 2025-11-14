@@ -50,7 +50,7 @@ namespace HolidayApi.Infrastructure
             }
 
             var upsertedHolidays = new List<Holiday>();
-            var existingHolidays = (await db.Holidays.Where(h => h.CountryCode == countryCode && h.Date.Year == year).Select(h => h.Date).ToListAsync()).ToHashSet();
+            var existingHolidays = (await db.Holidays.AsNoTracking().Where(h => h.CountryCode == countryCode && h.Date.Year == year).Select(h => h.Date).ToListAsync()).ToHashSet();
             var newHolidays = holidays.Where(h => !existingHolidays.Contains(h.Date)).ToList(); db.Holidays.AddRange(newHolidays);
 
             foreach (var newHoliday in newHolidays)
@@ -110,7 +110,7 @@ namespace HolidayApi.Infrastructure
             var startDateOfYear = new DateTime(year, 1, 1);
             var endDateOfYear = new DateTime(year + 1, 1, 1);
 
-            var currentYearHolidays = await db.Holidays.Where(h => countryCodes.Contains(h.CountryCode)
+            var currentYearHolidays = await db.Holidays.AsNoTracking().Where(h => countryCodes.Contains(h.CountryCode)
                                         && h.Date >= startDateOfYear
                                         && h.Date < endDateOfYear).ToListAsync();
 
@@ -145,8 +145,8 @@ namespace HolidayApi.Infrastructure
         public async Task<List<SharedHolidayDto>> GetSharedCelebrationDatesAsync(int year, string firstCountry, string secondCountry)
         {
             return await (
-                         from fch in db.Holidays
-                         join sch in db.Holidays
+                         from fch in db.Holidays.AsNoTracking()
+                         join sch in db.Holidays.AsNoTracking()
                          on fch.Date equals sch.Date
                          where fch.CountryCode == firstCountry && sch.CountryCode == secondCountry && fch.Date.Year == year
                          select new SharedHolidayDto
