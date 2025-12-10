@@ -37,7 +37,8 @@ app.UseMiddleware<GlobalExceptionMiddleware>(); // Configure Middleware
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<HolidayContext>();
-    db.Database.EnsureCreated(); // Automatically creates HolidaysDb if it doesn't exist
+   // db.Database.EnsureCreated(); // Automatically creates HolidaysDb if it doesn't exist
+   db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
